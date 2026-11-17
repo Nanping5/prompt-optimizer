@@ -1,200 +1,32 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none">
+  <!--
+    Lobe UI Clerk avatar mark.
+    Source: https://ui.lobehub.com/components/icons/clerk
+    The underlying Clerk glyph is kept unmodified and centered on a rounded app tile.
+  -->
   <defs>
-    <radialGradient id="bg-gradient" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(512 512) rotate(90) scale(512)">
-      <stop offset="0" stop-color="#2E2F4A"/>
-      <stop offset="0.45" stop-color="#262147"/>
-      <stop offset="0.78" stop-color="#1A1634"/>
-      <stop offset="1" stop-color="#0D0A1F"/>
-    </radialGradient>
-
-    <!-- Subtle top-center atmosphere to match the reference's brighter "sky". -->
-    <radialGradient id="top-spot" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(512 190) rotate(90) scale(520 380)">
-      <stop offset="0" stop-color="#7A2BD8" stop-opacity="0.24"/>
-      <stop offset="0.6" stop-color="#2C1C5E" stop-opacity="0.1"/>
-      <stop offset="1" stop-color="#0A1020" stop-opacity="0"/>
-    </radialGradient>
-
-    <radialGradient id="inner-plate" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(512 492) rotate(90) scale(470)">
-      <stop offset="0" stop-color="#552BFF" stop-opacity="0.18"/>
-      <stop offset="0.45" stop-color="#2A164A" stop-opacity="0.08"/>
-      <stop offset="0.78" stop-color="#0E0A22" stop-opacity="0.04"/>
-      <stop offset="1" stop-color="#0C1324" stop-opacity="0"/>
-    </radialGradient>
-
-    <radialGradient id="disk-darken" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(512 512) rotate(90) scale(390)">
-      <stop offset="0" stop-color="#07081A" stop-opacity="0.62"/>
-      <stop offset="0.6" stop-color="#07081A" stop-opacity="0.62"/>
-      <stop offset="0.78" stop-color="#07081A" stop-opacity="0.46"/>
-      <stop offset="0.9" stop-color="#07081A" stop-opacity="0.22"/>
-      <stop offset="1" stop-color="#07081A" stop-opacity="0"/>
-    </radialGradient>
-
-    <filter id="soft-glow" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
-      <feGaussianBlur stdDeviation="22"/>
-    </filter>
-
-    <filter id="mid-glow" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
-      <feGaussianBlur stdDeviation="14"/>
-    </filter>
-
-    <filter id="wide-glow" x="-70%" y="-70%" width="240%" height="240%" color-interpolation-filters="sRGB">
-      <feGaussianBlur stdDeviation="52"/>
-    </filter>
-
-    <filter id="far-glow" x="-90%" y="-90%" width="280%" height="280%" color-interpolation-filters="sRGB">
-      <feGaussianBlur stdDeviation="72"/>
-    </filter>
-
-    <filter id="inner-bloom" x="-70%" y="-70%" width="240%" height="240%" color-interpolation-filters="sRGB">
-      <feGaussianBlur stdDeviation="10"/>
-    </filter>
-
-    <!-- Symbol glow is intentionally tighter than ring glow to avoid filling the disk. -->
-    <filter id="sym-edge" x="-40%" y="-40%" width="180%" height="180%" color-interpolation-filters="sRGB">
-      <feGaussianBlur stdDeviation="6"/>
-    </filter>
-
-    <filter id="sym-soft" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
-      <feGaussianBlur stdDeviation="14"/>
-    </filter>
-
-    <filter id="sym-wide" x="-70%" y="-70%" width="240%" height="240%" color-interpolation-filters="sRGB">
-      <feGaussianBlur stdDeviation="28"/>
-    </filter>
-
-    <filter id="sym-far" x="-90%" y="-90%" width="280%" height="280%" color-interpolation-filters="sRGB">
-      <feGaussianBlur stdDeviation="42"/>
-    </filter>
-
-    <linearGradient id="cutout-glow-fill" x1="440" y1="520" x2="616" y2="520" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#9221FF"/>
-      <stop offset="0.6" stop-color="#5B17FF"/>
-      <stop offset="1" stop-color="#2A00FF"/>
+    <linearGradient id="clerk-tile" x1="160" y1="96" x2="864" y2="928" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7C66FF"/>
+      <stop offset="0.52" stop-color="#654BF6"/>
+      <stop offset="1" stop-color="#5538E8"/>
     </linearGradient>
-
-    <filter id="edge-glow" x="-40%" y="-40%" width="180%" height="180%" color-interpolation-filters="sRGB">
-      <feGaussianBlur stdDeviation="10"/>
-    </filter>
-
-    <!-- Mask out deep interior so ring glow doesn't fill the disk. -->
-    <linearGradient id="halo-bias" x1="0" y1="0" x2="0" y2="1024" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#FFFFFF" stop-opacity="1"/>
-      <stop offset="0.55" stop-color="#FFFFFF" stop-opacity="1"/>
-      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.35"/>
-    </linearGradient>
-
-    <linearGradient id="halo-bias-soft" x1="0" y1="0" x2="0" y2="1024" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#FFFFFF" stop-opacity="1"/>
-      <stop offset="0.55" stop-color="#FFFFFF" stop-opacity="1"/>
-      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.78"/>
-    </linearGradient>
-
-    <!-- Ring core: white inner rim -> saturated purple outer rim. -->
-    <radialGradient id="ring-core-base" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(512 512) rotate(90) scale(410)">
-      <stop offset="0" stop-color="#FFFFFF"/>
-      <stop offset="0.955" stop-color="#FFFFFF"/>
-      <stop offset="0.97" stop-color="#DAA3FF"/>
-      <stop offset="0.99" stop-color="#A528FF"/>
-      <stop offset="1" stop-color="#A528FF"/>
-    </radialGradient>
-
-    <!-- Top-only specular highlight for the ring. -->
-    <linearGradient id="ring-highlight-mask-grad" x1="0" y1="0" x2="0" y2="1024" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#FFFFFF"/>
-      <stop offset="0.55" stop-color="#FFFFFF"/>
-      <stop offset="0.9" stop-color="#000000"/>
-      <stop offset="1" stop-color="#000000"/>
-    </linearGradient>
-
-    <mask id="ring-highlight-mask" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
-      <rect x="0" y="0" width="1024" height="1024" fill="url(#ring-highlight-mask-grad)"/>
-    </mask>
-
-    <!-- Apply the top highlight only to the inner half of the ring stroke. -->
-    <clipPath id="ring-inner-clip">
-      <circle cx="512" cy="512" r="394"/>
-    </clipPath>
-
-
-    <!--
-      Luminance mask feather: black=masked out, white=fully visible.
-      Using a grayscale ramp (not opacity-only) avoids a hard cutoff ring.
-    -->
-    <radialGradient id="ring-mask-feather" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(512 512) rotate(90) scale(360)">
-      <stop offset="0" stop-color="#000000"/>
-      <stop offset="0.9" stop-color="#000000"/>
-      <stop offset="0.93" stop-color="#1A1A1A"/>
-      <stop offset="0.96" stop-color="#6A6A6A"/>
-      <stop offset="0.985" stop-color="#D0D0D0"/>
-      <stop offset="1" stop-color="#FFFFFF"/>
-    </radialGradient>
-
-    <mask id="ring-glow-mask" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
-      <rect x="0" y="0" width="1024" height="1024" fill="#FFFFFF"/>
-      <circle cx="512" cy="512" r="360" fill="url(#ring-mask-feather)"/>
-    </mask>
-
-    <mask id="ring-glow-mask-biased" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
-      <rect x="0" y="0" width="1024" height="1024" fill="url(#halo-bias)"/>
-      <circle cx="512" cy="512" r="360" fill="url(#ring-mask-feather)"/>
-    </mask>
-
-    <mask id="ring-glow-mask-biased-soft" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
-      <rect x="0" y="0" width="1024" height="1024" fill="url(#halo-bias-soft)"/>
-      <circle cx="512" cy="512" r="360" fill="url(#ring-mask-feather)"/>
-    </mask>
-
-
-    <!-- Keep the "inner bloom" strictly inside the ring with a soft edge. -->
-    <radialGradient id="inside-ring-feather" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(512 512) rotate(90) scale(404)">
-      <stop offset="0" stop-color="#FFFFFF" stop-opacity="1"/>
-      <stop offset="0.985" stop-color="#FFFFFF" stop-opacity="1"/>
+    <linearGradient id="clerk-sheen" x1="512" y1="64" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.24"/>
       <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
-    </radialGradient>
-
-    <!-- Bottom-only boost layer for inner bloom. -->
-    <linearGradient id="inner-bloom-bottom-boost" x1="0" y1="0" x2="0" y2="1024" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#9221FF" stop-opacity="0"/>
-      <stop offset="0.65" stop-color="#9221FF" stop-opacity="0"/>
-      <stop offset="0.85" stop-color="#9221FF" stop-opacity="0.7"/>
-      <stop offset="1" stop-color="#9221FF" stop-opacity="1"/>
     </linearGradient>
-
-    <mask id="inside-ring-mask" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
-      <rect x="0" y="0" width="1024" height="1024" fill="#000000"/>
-      <circle cx="512" cy="512" r="404" fill="url(#inside-ring-feather)"/>
-    </mask>
-
-    <filter id="soft-core" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
-      <feGaussianBlur stdDeviation="1.2"/>
+    <filter id="clerk-shadow" x="80" y="96" width="864" height="896" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="36" stdDeviation="44" flood-color="#312E81" flood-opacity="0.24"/>
     </filter>
   </defs>
 
-  <rect width="1024" height="1024" fill="url(#bg-gradient)"/>
-  <ellipse cx="512" cy="190" rx="640" ry="440" fill="url(#top-spot)"/>
-  <circle cx="512" cy="512" r="390" fill="url(#inner-plate)"/>
-  <circle cx="512" cy="512" r="390" fill="url(#disk-darken)"/>
+  <g filter="url(#clerk-shadow)">
+    <rect x="96" y="80" width="832" height="832" rx="204" fill="url(#clerk-tile)"/>
+    <rect x="96" y="80" width="832" height="832" rx="204" fill="url(#clerk-sheen)"/>
+    <rect x="97.5" y="81.5" width="829" height="829" rx="202.5" stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="3"/>
+  </g>
 
-  <circle cx="512" cy="512" r="370" stroke="#9221FF" stroke-width="18" opacity="0.92" filter="url(#inner-bloom)" mask="url(#inside-ring-mask)"/>
-  <circle cx="512" cy="512" r="370" stroke="url(#inner-bloom-bottom-boost)" stroke-width="18" opacity="0.55" filter="url(#inner-bloom)" mask="url(#inside-ring-mask)"/>
-
-  <circle cx="512" cy="512" r="396" stroke="#9221FF" stroke-width="48" opacity="0.82" filter="url(#far-glow)" mask="url(#ring-glow-mask-biased)"/>
-  <circle cx="512" cy="512" r="396" stroke="#9221FF" stroke-width="52" opacity="1" filter="url(#wide-glow)" mask="url(#ring-glow-mask-biased)"/>
-  <circle cx="512" cy="512" r="396" stroke="#9221FF" stroke-width="36" opacity="0.9" filter="url(#soft-glow)" mask="url(#ring-glow-mask)"/>
-  <circle cx="512" cy="512" r="396" stroke="#9221FF" stroke-width="34" opacity="0.85" filter="url(#mid-glow)" mask="url(#ring-glow-mask)"/>
-  <circle cx="512" cy="512" r="396" stroke="#9221FF" stroke-width="30" opacity="0.45" filter="url(#edge-glow)" mask="url(#ring-glow-mask)"/>
-  <circle cx="512" cy="512" r="394" stroke="url(#ring-core-base)" stroke-width="31" opacity="0.32" filter="url(#soft-core)"/>
-  <circle cx="512" cy="512" r="394" stroke="url(#ring-core-base)" stroke-width="31"/>
-  <circle cx="512" cy="512" r="394" stroke="#FFFFFF" stroke-width="31" opacity="0.24" filter="url(#soft-core)" mask="url(#ring-highlight-mask)" clip-path="url(#ring-inner-clip)"/>
-
-  <g transform="translate(512 512) scale(0.98) translate(-512 -512)">
-    <!-- Soft fill inside the cutout to match reference's inner glow. -->
-    <path d="M440 449 L512 520 L584 449 L616 481 L616 503 L512 597 L408 503 L408 481 Z" fill="url(#cutout-glow-fill)" opacity="0.38" filter="url(#sym-soft)"/>
-    <path d="M440 376 L512 448 L584 376 L665 457 L665 525 L512 678 L359 525 L359 457 Z M440 449 L512 520 L584 449 L616 481 L616 503 L512 597 L408 503 L408 481 Z" fill="#9221FF" fill-rule="evenodd" opacity="0.14" filter="url(#sym-far)"/>
-    <path d="M440 376 L512 448 L584 376 L665 457 L665 525 L512 678 L359 525 L359 457 Z M440 449 L512 520 L584 449 L616 481 L616 503 L512 597 L408 503 L408 481 Z" fill="#9221FF" fill-rule="evenodd" opacity="0.36" filter="url(#sym-wide)"/>
-    <path d="M440 376 L512 448 L584 376 L665 457 L665 525 L512 678 L359 525 L359 457 Z M440 449 L512 520 L584 449 L616 481 L616 503 L512 597 L408 503 L408 481 Z" fill="#9221FF" fill-rule="evenodd" opacity="0.64" filter="url(#sym-soft)"/>
-    <path d="M440 376 L512 448 L584 376 L665 457 L665 525 L512 678 L359 525 L359 457 Z M440 449 L512 520 L584 449 L616 481 L616 503 L512 597 L408 503 L408 481 Z" fill="#9221FF" fill-rule="evenodd" opacity="0.84" filter="url(#sym-edge)"/>
-    <path d="M440 376 L512 448 L584 376 L665 457 L665 525 L512 678 L359 525 L359 457 Z M440 449 L512 520 L584 449 L616 481 L616 503 L512 597 L408 503 L408 481 Z" fill="#FFFFFF" fill-rule="evenodd" opacity="0.34" filter="url(#soft-core)"/>
-    <path d="M440 376 L512 448 L584 376 L665 457 L665 525 L512 678 L359 525 L359 457 Z M440 449 L512 520 L584 449 L616 481 L616 503 L512 597 L408 503 L408 481 Z" fill="#FFFFFF" fill-rule="evenodd"/>
+  <g transform="translate(252 252) scale(21.6666667)" fill="#FFFFFF">
+    <path d="M12 15.75a3.75 3.75 0 100-7.5 3.75 3.75 0 000 7.5zM18.757 20.879c.319.319.287.847-.088 1.098A11.944 11.944 0 0111.999 24c-2.468 0-4.762-.745-6.67-2.023-.374-.25-.407-.779-.087-1.098l2.74-2.74c.248-.248.632-.287.944-.128a6.722 6.722 0 003.073.739 6.722 6.722 0 003.074-.739c.311-.16.695-.12.943.127l2.74 2.741z"/>
+    <path d="M18.67 2.023c.375.25.407.78.087 1.098l-2.74 2.74c-.248.248-.632.287-.944.128a6.75 6.75 0 00-9.085 9.085c.16.311.121.695-.126.943l-2.74 2.74c-.32.32-.848.288-1.1-.087A11.945 11.945 0 010 12C0 5.373 5.373 0 12 0c2.468 0 4.762.745 6.67 2.023z" fill-opacity="0.5"/>
   </g>
 </svg>

@@ -8,6 +8,12 @@
 
 - `images/logo/1024-1024.svg`
 
+当前标形来自 Lobe UI 的 Clerk 图标头像变体：
+
+- https://ui.lobehub.com/components/icons/clerk
+- 主色：`#654BF6`
+- 标形保持 Lobe UI 源码中的 Clerk 路径，不做局部改写
+
 对应的位图参考文件是：
 
 - `images/logo/1024-1024.png`
