@@ -26,7 +26,7 @@ export type GlobalSettingsState = GlobalSettingsSnapshot
 const STORAGE_KEY = GLOBAL_SETTINGS_STORAGE_KEY
 
 const createDefaultState = (): GlobalSettingsState => ({
-  selectedThemeId: 'auto',
+  selectedThemeId: 'light',
   preferredLanguage: 'zh-CN',
   builtinTemplateLanguage: 'zh-CN',
   functionMode: 'basic',

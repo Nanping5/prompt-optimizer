@@ -4,6 +4,9 @@
         <!-- 标题区域 -->
         <NFlex class="input-panel-heading" justify="space-between" align="center" :wrap="false">
             <NFlex class="input-panel-heading-group" align="center" :size="8">
+                <span class="card-heading-icon" aria-hidden="true">
+                    <NIcon :size="16"><FilePenLine /></NIcon>
+                </span>
                 <NText class="input-panel-title" :depth="1" style="font-size: 18px; font-weight: 500">{{
                     label
                 }}</NText>
@@ -178,7 +181,13 @@
 
 <script setup lang="ts">
 import OptimizationControls from './OptimizationControls.vue'
-import { CircleHelp as UiCircleHelp, MessageSquareText as UiMessageSquareText, Eye as UiEye, Maximize2 as UiMaximize2 } from '@lucide/vue'
+import {
+    CircleHelp as UiCircleHelp,
+    Eye as UiEye,
+    FilePenLine,
+    Maximize2 as UiMaximize2,
+    MessageSquareText as UiMessageSquareText,
+} from '@lucide/vue'
 import { computed } from 'vue'
 import { useWorkspaceLayout } from '../composables/ui/useWorkspaceLayout'
 const { compactInputRows } = useWorkspaceLayout()

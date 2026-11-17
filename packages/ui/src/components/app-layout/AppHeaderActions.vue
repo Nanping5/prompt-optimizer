@@ -14,7 +14,6 @@
     <!-- 页面型管理入口：会接管主内容区 -->
     <div class="page-destination-group" data-testid="header-page-destinations">
         <ActionButtonUI
-            icon="⭐"
             :text="$t('nav.favorites')"
             @click="emit('open-favorites')"
             :type="favoritesActive ? 'primary' : 'default'"
@@ -25,31 +24,34 @@
             :title="$t('favorites.page.title')"
             :aria-current="favoritesActive ? 'page' : undefined"
             :class="{ 'page-destination-active': favoritesActive }"
-        />
+        >
+            <template #icon><Star aria-hidden="true" :size="16" /></template>
+        </ActionButtonUI>
     </div>
 
     <!-- 弹窗型管理/配置入口 -->
     <div class="modal-action-group" data-testid="header-modal-actions">
         <ActionButtonUI
-            icon="📝"
             :text="$t('nav.templates')"
             @click="emit('open-templates')"
             type="default"
             size="medium"
             :ghost="false"
             :round="true"
-        />
+        >
+            <template #icon><LayoutTemplate aria-hidden="true" :size="16" /></template>
+        </ActionButtonUI>
         <ActionButtonUI
-            icon="📜"
             :text="$t('nav.history')"
             @click="emit('open-history')"
             type="default"
             size="medium"
             :ghost="false"
             :round="true"
-        />
+        >
+            <template #icon><History aria-hidden="true" :size="16" /></template>
+        </ActionButtonUI>
         <ActionButtonUI
-            icon="⚙️"
             class="nav-config-action"
             :text="$t('nav.modelManager')"
             @click="emit('open-model-manager')"
@@ -57,10 +59,11 @@
             size="medium"
             :ghost="false"
             :round="true"
-        />
+        >
+            <template #icon><SlidersHorizontal aria-hidden="true" :size="16" /></template>
+        </ActionButtonUI>
         <NBadge :show="backupReminderDue" dot processing>
             <ActionButtonUI
-                icon="💾"
                 class="nav-config-action"
                 :text="$t('nav.dataManager')"
                 @click="emit('open-data-manager')"
@@ -69,10 +72,11 @@
                 :ghost="false"
                 :round="true"
                 :title="backupReminderDue ? $t('dataManager.backupReminder.tooltip') : $t('nav.dataManager')"
-            />
+            >
+                <template #icon><HardDrive aria-hidden="true" :size="16" /></template>
+            </ActionButtonUI>
         </NBadge>
         <ActionButtonUI
-            icon="🔣"
             class="nav-config-action"
             :text="$t('nav.variableManager')"
             @click="emit('open-variables')"
@@ -80,7 +84,9 @@
             size="medium"
             :ghost="false"
             :round="true"
-        />
+        >
+            <template #icon><Braces aria-hidden="true" :size="16" /></template>
+        </ActionButtonUI>
     </div>
     <!-- 辅助功能区 - 使用简化样式降低视觉权重 -->
     <ThemeToggleUI />
@@ -146,7 +152,16 @@
 </template>
 
 <script setup lang="ts">
-import { Info as UiInfo, ArrowUpRight as UiArrowUpRight } from '@lucide/vue'
+import {
+    Braces,
+    HardDrive,
+    History,
+    LayoutTemplate,
+    SlidersHorizontal,
+    Star,
+    Info as UiInfo,
+    ArrowUpRight as UiArrowUpRight,
+} from '@lucide/vue'
 import GitHubIcon from '../icons/GitHubIcon.vue'
 /**
  * App 头部操作按钮组件

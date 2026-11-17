@@ -280,7 +280,13 @@
             :description="placeholder || t('common.noContent')"
             class="flex items-center justify-center"
             style="height: 100%;"
-          />
+          >
+            <template #icon>
+              <span class="empty-state-icon" aria-hidden="true">
+                <Sparkles :size="26" />
+              </span>
+            </template>
+          </NEmpty>
           <NText  v-else class="ml-2">{{ placeholder || t('common.loading') }}</NText>
         </NFlex>
       </NFlex>
@@ -290,7 +296,14 @@
 </template>
 
 <script setup lang="ts">
-import { Ellipsis as UiEllipsis, Maximize2 as UiMaximize2, ChevronDown, Copy, Star } from '@lucide/vue'
+import {
+  ChevronDown,
+  Copy,
+  Ellipsis as UiEllipsis,
+  Maximize2 as UiMaximize2,
+  Sparkles,
+  Star,
+} from '@lucide/vue'
 import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount, inject, h, type Ref } from 'vue'
 import { useElementSize } from '@vueuse/core'
 

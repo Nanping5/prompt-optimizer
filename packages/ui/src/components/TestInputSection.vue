@@ -3,9 +3,14 @@
     <NSpace vertical :size="8">
       <!-- 标题和控制区域 -->
       <NFlex v-if="showHeader" :justify="showLabel ? 'space-between' : 'end'" align="center" :wrap="false">
-        <NText v-if="showLabel" :depth="2" class="test-input-section__label">
-          {{ label }}
-        </NText>
+        <span v-if="showLabel" class="test-input-section__title-group">
+          <span class="card-heading-icon" aria-hidden="true">
+            <NIcon :size="16"><Layers3 /></NIcon>
+          </span>
+          <NText :depth="2" class="test-input-section__label">
+            {{ label }}
+          </NText>
+        </span>
         <div
           v-if="$slots['header-actions'] || enableFullscreen"
           class="test-input-section__header-actions"
@@ -67,7 +72,7 @@
 </template>
 
 <script setup lang="ts">
-import { Maximize2 as UiMaximize2 } from '@lucide/vue'
+import { Layers3, Maximize2 as UiMaximize2 } from '@lucide/vue'
 import { computed } from 'vue'
 
 import { useI18n } from 'vue-i18n'
@@ -135,6 +140,13 @@ const { isFullscreen, fullscreenValue, openFullscreen } = useFullscreen(
   min-width: 0;
   font-size: 14px;
   font-weight: 500;
+}
+
+.test-input-section__title-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
 }
 
 .test-input-section__header-actions {

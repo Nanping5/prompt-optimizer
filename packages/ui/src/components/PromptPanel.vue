@@ -20,6 +20,9 @@
             <NFlex class="prompt-panel-heading" justify="space-between" align="center" :size="[12, 8]">
                 <!-- 左侧：标题和版本 -->
                 <div class="prompt-panel-identity">
+                        <span class="card-heading-icon" aria-hidden="true">
+                            <NIcon :size="16"><FlaskConical /></NIcon>
+                        </span>
                         <NText class="prompt-panel-title text-lg font-semibold">{{
                             t("prompt.optimized")
                         }}</NText>
@@ -303,7 +306,12 @@
 </template>
 
 <script setup lang="ts">
-import { Eye as UiEye, Check as UiCheck, RefreshCw as UiRefreshCw } from '@lucide/vue'
+import {
+    Check as UiCheck,
+    Eye as UiEye,
+    FlaskConical,
+    RefreshCw as UiRefreshCw,
+} from '@lucide/vue'
 import OutputPlainText from './OutputPlainText.vue'
 import { ref, computed, nextTick, watch, type PropType } from "vue";
 import { useI18n } from "vue-i18n";

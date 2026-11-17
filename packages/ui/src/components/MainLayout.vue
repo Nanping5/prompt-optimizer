@@ -1,7 +1,7 @@
 <template>
   <!-- 使用ToastUI包装整个布局以提供NMessageProvider -->
   <ToastUI>
-    <NLayout ref="layoutRoot" class="compact-viewport-frame" :style="{ height: isCompact ? '100dvh' : '100vh', maxHeight: isCompact ? '100dvh' : '100vh' }" style="position: fixed; inset: 0; width: 100vw;
+    <NLayout ref="layoutRoot" class="compact-viewport-frame app-shell-ui" :style="{ height: isCompact ? '100dvh' : '100vh', maxHeight: isCompact ? '100dvh' : '100vh' }" style="position: fixed; inset: 0; width: 100vw;
     overflow: hidden; display: flex; min-height: 0;"
     content-style="height: 100%; max-height: 100%; min-height: 0; overflow: hidden;"
     >
@@ -105,8 +105,11 @@ const logoSrc = logoImage
 const createFallbackSvg = () => {
   const svg = `data:image/svg+xml,${encodeURIComponent(`
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-      <rect width="32" height="32" rx="6" fill="#3b82f6"/>
-      <text x="16" y="21" text-anchor="middle" fill="white" font-family="system-ui" font-size="14" font-weight="bold">P</text>
+      <rect width="32" height="32" rx="9" fill="#654BF6"/>
+      <g transform="translate(6 6) scale(.8333333)" fill="white">
+        <path d="M12 15.75a3.75 3.75 0 100-7.5 3.75 3.75 0 000 7.5zM18.757 20.879c.319.319.287.847-.088 1.098A11.944 11.944 0 0111.999 24c-2.468 0-4.762-.745-6.67-2.023-.374-.25-.407-.779-.087-1.098l2.74-2.74c.248-.248.632-.287.944-.128a6.722 6.722 0 003.073.739 6.722 6.722 0 003.074-.739c.311-.16.695-.12.943.127l2.74 2.741z"/>
+        <path d="M18.67 2.023c.375.25.407.78.087 1.098l-2.74 2.74c-.248.248-.632.287-.944.128a6.75 6.75 0 00-9.085 9.085c.16.311.121.695-.126.943l-2.74 2.74c-.32.32-.848.288-1.1-.087A11.945 11.945 0 010 12C0 5.373 5.373 0 12 0c2.468 0 4.762.745 6.67 2.023z" fill-opacity=".5"/>
+      </g>
     </svg>
   `)}`
   return svg
