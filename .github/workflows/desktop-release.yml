@@ -1,0 +1,251 @@
+name: Release macOS and Windows x64
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: desktop-release-${{ github.ref_name }}
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: '24.22.1'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      version_no_prefix: ${{ steps.version.outputs.version_no_prefix }}
+      source_sha: ${{ steps.version.outputs.source_sha }}
+    steps:
+      - name: Check out tagged source
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Validate tag and package versions
+        id: version
+        env:
+          RELEASE_VERSION: ${{ github.ref_name }}
+          RELEASE_SHA: ${{ github.sha }}
+        run: node scripts/release-channel.js
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate release notes
+        env:
+          RELEASE_VERSION: ${{ steps.version.outputs.version }}
+        run: node scripts/release-notes.js check "$RELEASE_VERSION"
+
+      - name: Run core gate
+        run: pnpm test:gate:core
+
+      - name: Run UI gate
+        run: pnpm test:gate:ui
+
+      - name: Run locale checks
+        run: pnpm check:locale && pnpm check:no-chinese-runtime
+
+  prepare-release:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out tagged source
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Prepare bilingual release body
+        run: >-
+          node scripts/release-notes.js render-body
+          "${{ needs.validate.outputs.version }}"
+          "${{ github.repository }}" > release_body.md
+
+      - name: Create draft release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ needs.validate.outputs.version }}
+        run: |
+          if gh release view "$VERSION" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            gh release edit "$VERSION" \
+              --repo "${{ github.repository }}" \
+              --title "$VERSION" \
+              --notes-file release_body.md \
+              --draft
+          else
+            gh release create "$VERSION" \
+              --repo "${{ github.repository }}" \
+              --title "$VERSION" \
+              --notes-file release_body.md \
+              --verify-tag \
+              --draft
+          fi
+
+  build-windows-x64:
+    needs: [validate, prepare-release]
+    runs-on: windows-latest
+    steps:
+      - name: Check out tagged source
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.validate.outputs.source_sha }}
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Windows x64 desktop app
+        run: |
+          pnpm build:core
+          pnpm build:ui
+          pnpm -F @prompt-optimizer/desktop build:web
+          pnpm -F @prompt-optimizer/desktop exec electron-builder --win nsis zip --x64 --publish never
+
+      - name: Verify Windows artifacts
+        shell: pwsh
+        run: |
+          $artifacts = Get-ChildItem packages/desktop/dist -File
+          $exe = @($artifacts | Where-Object Name -like 'PromptOptimizer-*-win-x64.exe')
+          $zip = @($artifacts | Where-Object Name -like 'PromptOptimizer-*-win-x64.zip')
+          if ($exe.Count -lt 1 -or $zip.Count -lt 1) {
+            $artifacts | Format-Table Name, Length
+            throw 'Missing Windows x64 .exe or .zip artifact'
+          }
+
+      - name: Upload Windows artifacts
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ needs.validate.outputs.version }}
+        run: |
+          gh release upload "$VERSION" \
+            packages/desktop/dist/PromptOptimizer-*-win-x64.exe \
+            packages/desktop/dist/PromptOptimizer-*-win-x64.zip \
+            packages/desktop/dist/*.blockmap \
+            packages/desktop/dist/latest*.yml \
+            --repo "${{ github.repository }}" \
+            --clobber
+
+  build-macos:
+    needs: [validate, prepare-release]
+    runs-on: macos-latest
+    steps:
+      - name: Check out tagged source
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.validate.outputs.source_sha }}
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build macOS desktop app
+        run: |
+          pnpm build:core
+          pnpm build:ui
+          pnpm -F @prompt-optimizer/desktop build:web
+          pnpm -F @prompt-optimizer/desktop exec electron-builder --mac dmg zip --x64 --arm64 --publish never
+
+      - name: Verify macOS artifacts
+        run: |
+          dmg_count=$(find packages/desktop/dist -maxdepth 1 -name 'PromptOptimizer-*-mac-*.dmg' | wc -l)
+          zip_count=$(find packages/desktop/dist -maxdepth 1 -name 'PromptOptimizer-*-mac-*.zip' | wc -l)
+          if [ "$dmg_count" -lt 2 ] || [ "$zip_count" -lt 2 ]; then
+            find packages/desktop/dist -maxdepth 1 -type f -print
+            echo 'Expected macOS x64 and arm64 DMG/ZIP artifacts'
+            exit 1
+          fi
+
+      - name: Upload macOS artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ needs.validate.outputs.version }}
+        run: |
+          gh release upload "$VERSION" \
+            packages/desktop/dist/PromptOptimizer-*-mac-*.dmg \
+            packages/desktop/dist/PromptOptimizer-*-mac-*.zip \
+            packages/desktop/dist/*.blockmap \
+            packages/desktop/dist/latest*.yml \
+            --repo "${{ github.repository }}" \
+            --clobber
+
+  publish:
+    needs: [validate, build-windows-x64, build-macos]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ needs.validate.outputs.version }}
+        run: |
+          gh release edit "$VERSION" \
+            --repo "${{ github.repository }}" \
+            --draft=false \
+            --latest \
+            --title "$VERSION"
+
+      - name: Verify published assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ needs.validate.outputs.version }}
+        run: |
+          release_json=$(gh release view "$VERSION" --repo "${{ github.repository }}" --json assets,isDraft,url)
+          echo "$release_json"
+          is_draft=$(printf '%s' "$release_json" | jq -r '.isDraft')
+          asset_names=$(printf '%s' "$release_json" | jq -r '.assets[].name')
+          windows_exe=$(printf '%s\n' "$asset_names" | grep -Ec '^PromptOptimizer-.*-win-x64\.exe$' || true)
+          windows_zip=$(printf '%s\n' "$asset_names" | grep -Ec '^PromptOptimizer-.*-win-x64\.zip$' || true)
+          mac_dmg=$(printf '%s\n' "$asset_names" | grep -Ec '^PromptOptimizer-.*-mac-.*\.dmg$' || true)
+          mac_zip=$(printf '%s\n' "$asset_names" | grep -Ec '^PromptOptimizer-.*-mac-.*\.zip$' || true)
+          if [ "$is_draft" != "false" ] || [ "$windows_exe" -lt 1 ] || [ "$windows_zip" -lt 1 ] || [ "$mac_dmg" -lt 2 ] || [ "$mac_zip" -lt 2 ]; then
+            echo "Release verification failed"
+            exit 1
+          fi

@@ -2,6 +2,10 @@
 
 Full release narratives now live in versioned files under `releases/`. This file stays as the index and summary entry point.
 
+## [2.16.0] - 2026-11-17
+- EN: Redesign the shared workspace with a macOS-inspired light interface, unified navigation, clearer two-column workflows, refreshed brand assets and a LobeHub Clerk app logo. See [Release Notes (EN)](releases/v2.16.0.en.md).
+- 中文：使用 macOS 浅色视觉重构共享工作区，统一顶部导航，强化双栏流程的信息层级，更新品牌资产并采用 LobeHub Clerk App Logo。参见 [版本说明（中文）](releases/v2.16.0.zh-CN.md)。
+
 ## [2.15.2] - 2026-11-09
 - EN: Restore wrapping and Stop controls for streamed output, update Vue I18n and Hono Node Server security dependencies, improve Garden browsing, and add optional GPT Image 2.6 GIF output. See [Release Notes (EN)](releases/v2.15.2.en.md).
 - 中文：恢复流式输出自动换行和停止按钮，升级 Vue I18n 与 Hono Node Server 安全依赖，完善 Garden 浏览，并支持 GPT Image 2.6 可选 GIF 输出。参见 [版本说明（中文）](releases/v2.15.2.zh-CN.md)。

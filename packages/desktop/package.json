@@ -1,11 +1,11 @@
 {
   "name": "@prompt-optimizer/desktop",
-  "version": "2.15.2",
+  "version": "2.16.0",
   "description": "Desktop application for Prompt Optimizer",
   "main": "main.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/linshenkx/prompt-optimizer.git"
+    "url": "https://github.com/Nanping5/prompt-optimizer.git"
   },
   "scripts": {
     "build": "pnpm run build:web && pnpm run package",
@@ -51,7 +51,7 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "linshenkx",
+      "owner": "Nanping5",
       "repo": "prompt-optimizer",
       "private": false
     },
